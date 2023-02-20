@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type Animal = {
-    name: string,
-    type: string,
-    img: string
+  _id?: string,
+  name: string,
+  type: string,
+  img: string
 }
+
 
 interface AnimalStateType {
     animals: Animal[],
@@ -30,13 +32,20 @@ const animalSlice = createSlice({
         state.loading = action.payload
     },
 
-    // add: (state, action: PayloadAction<Animal>) => {
+    setAddNew: (state, action: PayloadAction<Animal>) => {
+      // state.animals=state.animals.concat(action.payload)
+      state.animals=[...state.animals, action.payload]
+    },
 
-    // },
-
-    // remove: (state, action: PayloadAction<Animal>) => {
-
-    // },
+    setRemove: (state, action: PayloadAction<Animal['name']>) => {
+      console.log(state.animals)
+      console.log(action.payload)
+      console.log(action)
+      const index = state.animals.map(item => item.name).indexOf(action.payload);
+      console.log(index)
+      const  name  = action.payload; 
+      state.animals.filter(item => item.name !== name);
+    },
 
     // edit: (state, action: PayloadAction<Animal>) => {
   
@@ -45,6 +54,6 @@ const animalSlice = createSlice({
   },
 })
 
-export const { setAllAnimals, setLoading } = animalSlice.actions
+export const { setAllAnimals, setLoading, setAddNew, setRemove } = animalSlice.actions
 
 export default animalSlice.reducer
